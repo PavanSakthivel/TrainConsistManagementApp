@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrainIdCargoCodeValidationTest {
+class TrainConsistManagementAppTest {
 
     // Regex patterns
     private final Pattern trainIdPattern = Pattern.compile("^TRN-\\d{4}$");
