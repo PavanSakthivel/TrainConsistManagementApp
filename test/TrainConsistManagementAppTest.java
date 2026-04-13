@@ -1,46 +1,48 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
 
 public class TrainConsistManagementAppTest {
 
-    private String[] sortBogieNames(String[] names) {
-        Arrays.sort(names);
-        return names;
+    private boolean validatedSearch(String[] bogieIds, String searchId) {
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("No bogie data available for search.");
+        }
+
+        for (String id : bogieIds) {
+            if (id.equals(searchId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Test
-    void testSort_BasicAlphabeticalSorting() {
-        String[] input = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
-        String[] expected = {"AC Chair", "First Class", "General", "Luxury", "Sleeper"};
-        assertArrayEquals(expected, sortBogieNames(input));
+    void testSearch_ThrowsExceptionWhenEmpty() {
+        String[] bogieIds = {};
+        assertThrows(IllegalStateException.class, () -> validatedSearch(bogieIds, "BG101"));
     }
 
     @Test
-    void testSort_UnsortedInput() {
-        String[] input = {"Luxury", "General", "Sleeper", "AC Chair"};
-        String[] expected = {"AC Chair", "General", "Luxury", "Sleeper"};
-        assertArrayEquals(expected, sortBogieNames(input));
+    void testSearch_AllowsSearchWhenDataExists() {
+        String[] bogieIds = {"BG101", "BG205"};
+        assertDoesNotThrow(() -> validatedSearch(bogieIds, "BG101"));
     }
 
     @Test
-    void testSort_AlreadySortedArray() {
-        String[] input = {"AC Chair", "First Class", "General"};
-        String[] expected = {"AC Chair", "First Class", "General"};
-        assertArrayEquals(expected, sortBogieNames(input));
+    void testSearch_BogieFoundAfterValidation() {
+        String[] bogieIds = {"BG101", "BG205", "BG309"};
+        assertTrue(validatedSearch(bogieIds, "BG205"));
     }
 
     @Test
-    void testSort_DuplicateBogieNames() {
-        String[] input = {"Sleeper", "AC Chair", "Sleeper", "General"};
-        String[] expected = {"AC Chair", "General", "Sleeper", "Sleeper"};
-        assertArrayEquals(expected, sortBogieNames(input));
+    void testSearch_BogieNotFoundAfterValidation() {
+        String[] bogieIds = {"BG101", "BG205", "BG309"};
+        assertFalse(validatedSearch(bogieIds, "BG999"));
     }
 
     @Test
-    void testSort_SingleElementArray() {
-        String[] input = {"Sleeper"};
-        String[] expected = {"Sleeper"};
-        assertArrayEquals(expected, sortBogieNames(input));
+    void testSearch_SingleElementValidCase() {
+        String[] bogieIds = {"BG101"};
+        assertTrue(validatedSearch(bogieIds, "BG101"));
     }
 }

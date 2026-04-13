@@ -1,22 +1,56 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class TrainConsistManagementApp {
-
     public static void main(String[] args) {
+        System.out.println("=== Train Consist Management App ===");
 
-        System.out.println("UC17 - Sort Bogie Names Using Arrays.sort()\n");
+        // Step 1: Create an array of bogie IDs (can be empty for testing)
+        String[] bogieIds = {}; // Try with empty array to trigger exception
+        // String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"}; // Uncomment for valid case
 
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // Step 2: Validate state before searching
+        if (bogieIds.length == 0) {
+            throw new IllegalStateException("Search operation not allowed: No bogies in train consist.");
+        }
 
-        System.out.println("Original Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        // Step 3: Sort bogie IDs (Binary Search requires sorted data)
+        Arrays.sort(bogieIds);
 
-        Arrays.sort(bogieNames);
+        // Step 4: Display sorted bogie IDs
+        System.out.println("\nSorted Bogie IDs in Train:");
+        System.out.println(Arrays.toString(bogieIds));
 
-        System.out.println("\nSorted Bogie Names (Alphabetical):");
-        System.out.println(Arrays.toString(bogieNames));
+        // Step 5: Accept search key from user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nEnter Bogie ID to search: ");
+        String searchKey = scanner.nextLine();
 
-        System.out.println("\nUC17 sorting completed ...");
+        // Step 6: Perform Binary Search
+        int low = 0;
+        int high = bogieIds.length - 1;
+        boolean found = false;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int comparison = searchKey.compareTo(bogieIds[mid]);
+
+            if (comparison == 0) {
+                System.out.println("Bogie ID " + searchKey + " found at position " + (mid + 1));
+                found = true;
+                break;
+            } else if (comparison < 0) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        // Step 7: Display result if not found
+        if (!found) {
+            System.out.println("Bogie ID " + searchKey + " not found in train consist.");
+        }
+
+        scanner.close();
     }
 }
-
