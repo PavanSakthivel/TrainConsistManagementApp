@@ -46,3 +46,4 @@ public class TrainConsistManagementAppTest {
         assertTrue(validatedSearch(bogieIds, "BG101"));
     }
 }
+
