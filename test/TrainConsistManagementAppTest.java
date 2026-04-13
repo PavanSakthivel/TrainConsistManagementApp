@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
 
 public class TrainConsistManagementAppTest {
 
@@ -66,3 +65,4 @@ public class TrainConsistManagementAppTest {
         assertTrue(binarySearch(bogieIds, "BG205"));
     }
 }
+
